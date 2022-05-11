@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: sample-dev
-  namespace: darshana-dev
+  namespace: test-dev
   labels:
     app: sample-dev
     app.kubernetes.io/component: sample-dev

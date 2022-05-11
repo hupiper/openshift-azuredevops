@@ -7,15 +7,11 @@ pool:
 variables:
   tag: '$(Build.BuildId)'
   buildConfiguration: 'Release'
-  project-name-dev: 'darshana-dev'
-  project-name-uat: 'darshana-uat'
+  project-name-dev: 'test-dev'
   image-repository-dev: 'imagestream-dev'
-  image-repository-uat: 'imagestream-dev'
   development-cfg-dev: 'sample-dev'
-  development-cfg-uat: 'sample-uat'
   container-name-dev: 'sample-dev'
-  container-name-uat: 'sample-uat'
-
+  
 stages: 
 - stage: Build
   displayName: Build
@@ -94,35 +90,4 @@ stages:
         connectionType: 'OpenShift Connection Service'
         openshiftService: 'openshift-cluster-connection'
         cmd: 'oc set triggers dc/$(development-cfg-dev) --from-image=$(project-name-dev)/$(image-repository-dev):$(tag) -c $(container-name-dev)'
-        uselocalOc: true
-
-- stage: UAT 
-  displayName: Deploy UAT
-  jobs:
-  - job: Deploy
-    displayName: Deploy-UAT-Job
-    steps:
-    
-    - task: oc-cmd@2
-      displayName: Tag Docker Image
-      inputs:
-        connectionType: 'OpenShift Connection Service'
-        openshiftService: 'openshift-cluster-connection'
-        cmd: 'oc -n $(project-name-dev)  tag $(project-name-dev)/$(image-repository-dev):$(tag) $(project-name-uat)/$(image-repository-uat):$(tag)'
-        uselocalOc: true
-
-    - task: oc-cmd@2
-      displayName: Select UAT project To UAT
-      inputs:
-        connectionType: 'OpenShift Connection Service'
-        openshiftService: 'openshift-cluster-connection'
-        cmd: 'oc project $(project-name-uat)'
-        uselocalOc: true
-
-    - task: oc-cmd@2
-      displayName: 'Deploy To UAT'
-      inputs:
-        connectionType: 'OpenShift Connection Service'
-        openshiftService: 'openshift-cluster-connection'
-        cmd: 'oc set triggers dc/$(development-cfg-uat) --from-image=$(project-name-uat)/$(image-repository-uat):$(tag) -c $(container-name-uat)'
         uselocalOc: true

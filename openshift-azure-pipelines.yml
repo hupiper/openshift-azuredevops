@@ -72,14 +72,14 @@ stages:
       displayName: Connect With OpenShift
       inputs:
         connectionType: 'OpenShift Connection Service'
-        openshiftService: 'openshift-cluster-connection'
+        openshiftService: 'rosa'
         
 
     - task: oc-cmd@2
       displayName: Select DEV project
       inputs:
         connectionType: 'OpenShift Connection Service'
-        openshiftService: 'openshift-cluster-connection'
+        openshiftService: 'rosa'
         cmd: 'oc project $(project-name-dev)'
         uselocalOc: true
 
@@ -87,6 +87,6 @@ stages:
       displayName: Deploy Docker Image To DEV
       inputs:
         connectionType: 'OpenShift Connection Service'
-        openshiftService: 'openshift-cluster-connection'
+        openshiftService: 'rosa'
         cmd: 'oc set triggers dc/$(development-cfg-dev) --from-image=$(project-name-dev)/$(image-repository-dev):$(tag) -c $(container-name-dev)'
         uselocalOc: true

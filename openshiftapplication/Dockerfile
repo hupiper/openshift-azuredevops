@@ -1,13 +1,13 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 #FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
-FROM registry.redhat.io/rhel8/dotnet-31 AS base
+FROM ubi8/dotnet-31 AS base
 WORKDIR /app
 EXPOSE 8080
 ENV ASPNETCORE_URLS=http://*:8080
 
 #FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
-FROM registry.redhat.io/rhel8/dotnet-31 AS build
+FROM ubi8/dotnet-31 AS build
 WORKDIR /src
 COPY ["openshiftapplication/openshiftapplication.csproj", "openshiftapplication/"]
 RUN dotnet restore "openshiftapplication/openshiftapplication.csproj"
